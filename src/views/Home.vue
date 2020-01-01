@@ -21,8 +21,14 @@ export default {
     LastBook,
     Hero,
     Info
+  },
+  mounted() {
+    this.$store.dispatch("Book/getData");
   }
 };
 </script>
-<style scoped>
+<style >
+.home div {
+  height: 100%;
+}
 </style>

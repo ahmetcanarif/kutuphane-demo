@@ -5,7 +5,7 @@
         <Navbar />
       </slot>
     </Header>
-    <main>
+    <main style="height:100%  !important">
       <slot></slot>
     </main>
     <div>

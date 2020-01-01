@@ -25,13 +25,29 @@ const routes = [
       {
         path: ":id",
         component: () => import("../components/BookDetail.vue")
+      },
+      {
+        path: "popular",
+        component: () => import("../components/PopularBook.vue")
       }
     ]
   },
   {
-    path: "/loading",
-    name: "Loading",
-    component: () => import("../components/Loading.vue")
+    path: "/profile",
+    component: () => import("../views/Profile.vue"),
+    beforeEnter(to, from, next) {
+      if (localStorage.getItem("user_token")) {
+        next();
+      } else {
+        next("/");
+      }
+    },
+    children: [
+      {
+        path: "",
+        component: () => import("../components/ReadBookUser.vue")
+      }
+    ]
   }
 ];
 

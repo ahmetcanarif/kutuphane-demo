@@ -16,11 +16,18 @@ import HomeLayout from "@/layouts/HomeLayout";
 export default {
   components: {
     HomeLayout
+  },
+  created() {
+    const user_token = localStorage.getItem("user_token");
+    if (user_token) {
+      this.$store.dispatch("User/getTokenUser", user_token);
+    }
   }
 };
 </script>
 <style>
 @import url("https://fonts.googleapis.com/css?family=Quicksand&display=swap");
+@import url("./assets/css/main.css");
 @import url("https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css");
 @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css");
 body {

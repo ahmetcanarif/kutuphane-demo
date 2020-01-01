@@ -1,0 +1,12 @@
+html,body,#app,#app>div,#app>div>main,#app>div>main>main{
+    height: 100%;
+
+}
+.profile-card,.profile-nav{
+    height: 100% ;
+}
+
+.books {
+    height: 100%;
+    overflow: hidden;
+  }

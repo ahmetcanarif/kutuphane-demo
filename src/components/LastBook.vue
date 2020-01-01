@@ -1,20 +1,20 @@
 <template>
   <div class="container mt-5">
-    <h2 class="text-center title">Last Aded Book</h2>
+    <h2 class="text-center title">Last Added Books</h2>
     <div class="row justify-content-center">
-      <div v-for="index in 6" :key="index" class="col-md-3 m-2 text-center book-card py-3">
+      <div v-for="book in books" :key="book.id" class="col-md-3 m-2 text-center book-card py-3">
         <div>
           <img
             class="img-fluid mb-2"
-            src="https://i.dr.com.tr/cache/600x600-0/originals/0001851796001-1.jpg"
+            :src="`http://localhost/kutuphane/admin/kitap_img/${book.resim}`"
             alt
           />
         </div>
-        <div class="book-title">Sandman 7 Kısa Hayatlar</div>
-        <div class="book-author">Ahmetcan</div>
-        <div class="book-publishing-house">Yıldızlar</div>
+        <div class="book-title">{{ book.ad }}</div>
+        <div class="book-author">{{ book.yazar }}</div>
+        <div class="book-publishing-house">{{ book.yayinevi }}</div>
         <router-link
-          to="book/detail"
+          :to="`book/${book.id}`"
           tag="button"
           class="btn detail-btn btn-sm btn-block btn-primary mt-3"
         >View</router-link>
@@ -24,7 +24,19 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      books: []
+    };
+  },
+  async mounted() {
+    await this.$store.dispatch("Book/getLastBooks").then(() => {
+      const res = this.$store.getters["Book/getLastBook"];
+      this.books = res.popularBooks;
+    });
+  }
+};
 </script>
 
 <style scoped>
@@ -32,7 +44,7 @@ export default {};
   background: #fff !important;
   box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.2);
   border-radius: 7px;
-  transition: .5s;
+  transition: 0.5s;
 }
 .img-fluid {
   height: 250px;
@@ -50,31 +62,31 @@ export default {};
   font-weight: 500;
   font-size: 14px;
 }
-.detail-btn, .detail-btn:focus {
+.detail-btn,
+.detail-btn:focus {
   background: #f64c72 !important;
   border-color: #f64c72 !important;
 }
-.detail-btn{
-  font-weight:600;
+.detail-btn {
+  font-weight: 600;
 }
-.book-card:hover{
+.book-card:hover {
   transform: scale(1.01);
 }
-textarea:hover, 
-input:hover, 
-textarea:active, 
-input:active, 
-textarea:focus, 
+textarea:hover,
+input:hover,
+textarea:active,
+input:active,
+textarea:focus,
 input:focus,
 button:focus,
 button:active,
 button:hover,
 label:focus,
 .btn:active,
-.btn.active
-{
-    outline:0px !important;
-    -webkit-appearance:none;
-    box-shadow: none !important;
+.btn.active {
+  outline: 0px !important;
+  -webkit-appearance: none;
+  box-shadow: none !important;
 }
 </style>

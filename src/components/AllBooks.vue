@@ -8,46 +8,145 @@
       <div class="col-md-3 my-4">
         <div class="sticky-top">
           <div class="list-group shadow">
-            <router-link tag="a" to="/book" exact active-class="active">
-              <div class="list-group-item active">Tümü</div>
-            </router-link>
+            <div
+              @click="filteredCategory('Tümü')"
+              :class="{'active':selectedCategory == 'Tümü'}"
+              class="list-group-item"
+            >Tümü</div>
 
-            <router-link tag="a" to="/book/" active-class="active">
-              <div class="list-group-item">asdasd</div>
-            </router-link>
+            <div
+              @click="filteredCategory(categories.tur)"
+              v-for="categories in category"
+              :key="categories.id"
+              :class="{'active':selectedCategory === categories.tur}"
+              class="list-group-item"
+            >{{ categories.tur }}</div>
           </div>
         </div>
       </div>
       <Loading v-if="loading" />
       <div v-if="!loading" class="col-md-9">
-        <div class="row shadow bg-white my-4 py-3" v-for="(photo,index) in display" :key="index">
-          <div class="col-md-4">
-            <img style="height: 100% !important;width: 100%;" class="img-fluid" src="img" />
-          </div>
-          <div class="col-md-8 d-flex flex-column">
-            <h3 class="mt-0 book-title font-weight-bold">{{ photo.title | capitalize }}</h3>
-            <div style="border-bottom: 1px dashed #ccc;" class="mb-2"></div>
-            <div class="d-flex" style="flex:1;">
-              <p class="mx-0 book-body">{{ photo.body}}</p>
+        <div v-if="isFilterCategory">
+          <div class="alert alert-warning" v-if="filteredData.length === 0">lorem</div>
+          <div
+            class="row shadow bg-white my-4 py-3"
+            v-for="(book,index) in filteredDisplay"
+            :key="index"
+          >
+            <div class="col-md-4">
+              <img
+                style="height: 100% !important;width: 100%;"
+                class="img-fluid"
+                :src="`http://localhost/kutuphane/admin/kitap_img/${book.resim}`"
+              />
             </div>
-            <div class="detay">
-              <div class="row">
-                <span class="btn btn-sm btn-secondary ml-auto mr-3">View -></span>
+            <div class="col-md-8 d-flex flex-column">
+              <h3 class="mt-0 book-title font-weight-bold">{{ book.ad }}</h3>
+              <div style="border-bottom: 1px dashed #ccc;" class="mb-2"></div>
+              <div class="d-flex" style="flex:1;">
+                <p class="mx-0 book-body">{{ book.tur}}</p>
+              </div>
+              <div class="detay">
+                <div class="row">
+                  <router-link
+                    :to="`/book/${book.id}`"
+                    class="btn btn-sm btn-secondary ml-auto mr-3"
+                  >View -></router-link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div v-if="!isFilterCategory">
+          <div class="row shadow bg-white my-4 py-3" v-for="(book,index) in display" :key="index">
+            <div class="col-md-4">
+              <img
+                style="height: 100% !important;width: 100%;"
+                class="img-fluid"
+                :src="`http://localhost/kutuphane/admin/kitap_img/${book.resim}`"
+              />
+            </div>
+            <div class="col-md-8 d-flex flex-column">
+              <h3 class="mt-0 book-title font-weight-bold">{{ book.ad }}</h3>
+              <div style="border-bottom: 1px dashed #ccc;" class="mb-2"></div>
+              <div class="d-flex" style="flex:1;">
+                <p class="mx-0 book-body">{{ book.tur}}</p>
+              </div>
+              <div class="detay">
+                <div class="row">
+                  <router-link
+                    :to="`/book/${book.id}`"
+                    class="btn btn-sm btn-secondary ml-auto mr-3"
+                  >View -></router-link>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="text-center col-md-12">
-        <button :disabled="page === 1" @click="page = page - 1" class="mx-4 btn btn-primary">Prev</button>
-        <button
-          class="btn btn-sm btn-primary"
-          :class="{'btn-warning':pages === page}"
-          @click="nextPage(pages)"
-          v-for="(pages,index) in last"
-          :key="index"
-        >{{ pages }}</button>
-        <button :disabled="page == last" @click="page = page + 1" class="mx-4 btn btn-primary">Next</button>
+      <div class="text-center col-md-12" v-if="!isFilterCategory">
+        <nav class="d-flex justify-content-center" aria-label="Page navigation example">
+          <ul class="pagination">
+            <li class="page-item">
+              <span
+                class="page-link"
+                :class="{'d-none':page === 1}"
+                @click="page = page - 1"
+                aria-hidden="true"
+              >&laquo;</span>
+            </li>
+            <li
+              :class="{'active':pages === page}"
+              @click="nextPage(pages)"
+              v-for="(pages,index) in pagesTotal"
+              :key="index"
+              class="page-item"
+            >
+              <span class="page-link" href="#">{{ pages }}</span>
+            </li>
+
+            <li class="page-item">
+              <span
+                class="page-link"
+                :class="{'d-none':page === last}"
+                @click="page = page + 1"
+                aria-hidden="true"
+              >&raquo;</span>
+            </li>
+          </ul>
+        </nav>
+      </div>
+      <div class="text-center col-md-12" v-if="isFilterCategory">
+        <nav class="d-flex justify-content-center" aria-label="Page navigation example">
+          <ul class="pagination">
+            <li class="page-item">
+              <span
+                class="page-link"
+                :class="{'d-none':page === 1}"
+                @click="page = page - 1"
+                aria-hidden="true"
+              >&laquo;</span>
+            </li>
+            <li
+              :class="{'active':pages === page}"
+              @click="nextPage(pages)"
+              v-for="(pages,index) in filteredPagesTotal"
+              :key="index"
+              class="page-item"
+            >
+              <span class="page-link" href="#">{{ pages }}</span>
+            </li>
+
+            <li class="page-item">
+              <span
+                class="page-link"
+                :class="{'d-none':page === filteredLast}"
+                @click="page = page + 1"
+                aria-hidden="true"
+              >&raquo;</span>
+            </li>
+          </ul>
+        </nav>
       </div>
     </div>
   </div>
@@ -63,14 +162,32 @@ export default {
   data() {
     return {
       data: [],
+      category: [],
+      filteredData: [],
+      selectedCategory: "",
       loading: true,
       range: 10,
       page: 1,
-      pageTotal: 3
+      pageTotal: 5,
+      allPages: [],
+      isFilterCategory: false
     };
   },
-  mounted() {
-    this.getData();
+  async mounted() {
+    this.selectedCategory = "Tümü";
+    await this.$store.dispatch("Book/getData").then(() => {
+      const res = this.$store.getters["Book/getBooks"];
+      this.data = res.books;
+      this.loading = false;
+      let lastPage = Math.floor(this.data.length / this.range) + 1;
+      for (let i = 1; i <= lastPage; i++) {
+        this.allPages.push(i);
+      }
+    });
+    await this.$store.dispatch("Book/getCategory").then(() => {
+      const res = this.$store.getters["Book/getCategory"];
+      this.category = res.category;
+    });
   },
   filters: {
     capitalize(val) {
@@ -78,34 +195,99 @@ export default {
     }
   },
   methods: {
-    async getData() {
-      await axios
-        .get("https://jsonplaceholder.typicode.com/posts")
-        .then(res => {
-          this.data = res.data;
-          this.loading = false;
-        });
+    filteredCategory(category) {
+      this.scrollToTop();
+      this.page = 1;
+      this.selectedCategory = category;
+      if (category === "Tümü") {
+        this.isFilterCategory = false;
+        let lastPage = Math.floor(this.data.length / this.range) + 1;
+        this.allPages = [];
+        for (let i = 1; i <= lastPage; i++) {
+          this.allPages.push(i);
+        }
+      } else {
+        this.isFilterCategory = true;
+        this.filterCategory = true;
+        const result = this.data.filter(i => i.tur === category);
+        this.filteredData = result;
+      }
+    },
+    scrollToTop() {
+      window.scrollTo(0, 0);
     },
     nextPage(page) {
-      console.log(page);
       this.page = page;
     }
   },
   watch: {
     page(a) {
       this.page = a;
-      console.log(a);
+      this.scrollToTop();
+    },
+    filteredData(a) {
+      let lastPage = Math.floor(this.filteredData.length / this.range) + 1;
+      this.allPages = [];
+      for (let i = 1; i <= lastPage; i++) {
+        this.allPages.push(i);
+      }
     }
   },
   computed: {
     last() {
-      return this.data.length / this.range;
+      return Math.floor(this.data.length / this.range) + 1;
     },
+    filteredLast() {
+      return Math.floor(this.filteredData.length / this.range) + 1;
+    },
+    pagesTotal() {
+      let lastPage = Math.floor(this.data.length / this.range) + 1;
+      let pageSay;
+      if (this.allPages.length > 3) {
+        if (this.page >= 3) {
+          pageSay = this.allPages.slice(this.page - 3, this.page + 2);
+        } else if (this.page === 1) {
+          pageSay = this.allPages.slice(this.page - 1, this.page + 2);
+        } else if (this.page === 2) {
+          pageSay = this.allPages.slice(this.page - 2, this.page + 2);
+        } else if (this.page === this.allPages.length) {
+          pageSay = this.allPages.slice(this.page - 5, this.page + 2);
+        }
+      } else {
+        pageSay = this.allPages;
+      }
+      return pageSay;
+    },
+    filteredPagesTotal() {
+      let pageSay;
+      let lastPage = Math.floor(this.filteredData.length / this.range) + 1;
+      if (this.allPages.length > 3) {
+        if (this.page >= 3) {
+          pageSay = this.allPages.slice(this.page - 3, this.page + 2);
+        } else if (this.page === 1) {
+          pageSay = this.allPages.slice(this.page - 1, this.page + 2);
+        } else if (this.page === 2) {
+          pageSay = this.allPages.slice(this.page - 2, this.page + 2);
+        } else if (this.page === this.allPages.length) {
+          pageSay = this.allPages.slice(this.page - 5, this.page + 2);
+        }
+      } else {
+        pageSay = Math.floor(this.filteredData.length / this.range) + 1;
+      }
+      return pageSay;
+    },
+
     display() {
       let range = this.range;
-      let offset = this.range * this.page;
-      console.log(offset);
-      return this.data.slice(this.data, offset);
+      let offset = this.page * this.range;
+      //return this.data.slice(this.data, offset);
+      return this.data.slice(this.page - 1, this.page + this.range);
+    },
+    filteredDisplay() {
+      let range = this.range;
+      let offset = this.page + this.range;
+      //return this.data.slice(this.data, offset);
+      return this.filteredData.slice(this.page - 1, offset);
     }
   }
 };
@@ -122,7 +304,7 @@ export default {
   height: 250px;
 }
 .active {
-  background: rgba(255, 255, 255, 0.3);
+  background: #f3f3f3;
   color: #232323;
 }
 .list-group-item {
