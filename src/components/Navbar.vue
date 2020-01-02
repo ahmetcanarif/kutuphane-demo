@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg py-4">
+  <nav class="navbar navbar-expand-lg">
     <SignIn @closedLoginModal="closeLoginModal($event)" :status="isActiveModal" />
     <div class="container">
       <router-link to="/" tag="a" class="navbar-brand" href="#">Navbar</router-link>
@@ -28,14 +28,15 @@
           <li v-if="this.$store.getters['User/isAuth']" class="nav-item">
             <router-link class="nav-link" active-class="active" to="/profile" tag="a">Hesabım</router-link>
           </li>
+
           <li v-if="!this.$store.getters['User/isAuth']">
-            <a
-              @click="isActiveModal = !isActiveModal"
-              class="btn btn-outline login-btn nav-link"
-            >Giriş Yap</a>
+            <a @click="isActiveModal = !isActiveModal" class="btn login-btn nav-link">Giriş Yap</a>
           </li>
           <li v-if="this.$store.getters['User/isAuth']">
-            <a @click="logout" class="btn btn-outline login-btn nav-link">Çıkış Yap</a>
+            <a @click="logout" class="btn btn-outline signup-btn ml-4 nav-link">Çıkış Yap</a>
+          </li>
+          <li v-if="!this.$store.getters['User/isAuth']">
+            <router-link to="/signup" class="btn btn-outline signup-btn nav-link">Kayıt Ol</router-link>
           </li>
         </ul>
       </div>
@@ -68,16 +69,23 @@ export default {
   box-shadow: 0px -3px 0px #f64c72 inset;
 }
 .navbar {
-  background: #242582;
+  /*background: #242582;*/
+  background: #212121;
   color: #fff;
   z-index: 1;
   height: 50px;
 }
 .login-btn {
+  background: #f64c72;
+  color: #fff !important;
+  font-weight: 600;
+  margin-left: 35px;
+}
+.signup-btn {
   border-color: #f64c72;
   color: #f64c72 !important;
   font-weight: 600;
-  margin-left: 35px;
+  margin-left: 5px;
 }
 .nav-link,
 .navbar-brand {

@@ -11,15 +11,14 @@
     </div>
     <div class="col-md-12 mt--2">
       <ul class="d-flex flex-column user-nav">
-        <li>
-          <router-link tag="a" class="nav-item" to="/profile">Profile</router-link>
-        </li>
-        <li class="active">
-          <router-link tag="a" class="nav-item" to="/profile">Book</router-link>
-        </li>
-        <li>
-          <router-link tag="a" class="nav-item" to="/profile">Ayarlar</router-link>
-        </li>
+        <router-link
+          tag="li"
+          exact
+          active-class="active"
+          class="nav-item"
+          to="/profile"
+        >Okuduğun Kitaplar</router-link>
+        <router-link tag="li" active-class="active" class="nav-item" to="/profile/setting">Ayarlar</router-link>
       </ul>
     </div>
   </div>
@@ -29,12 +28,13 @@
 export default {
   data() {
     return {
-      user: {}
+      user: {},
+      us: { ad: "asdasdasd" }
     };
   },
   mounted() {
     setTimeout(() => {
-      this.user = this.$store.getters["User/getUser"];
+      this.user = this.$store.state.User.user;
     }, 100);
   }
 };
@@ -44,9 +44,11 @@ export default {
 .name {
   font-weight: 600;
   margin-top: 10px;
+  color: #fff;
 }
 .border-right {
-  border-width: 3px !important;
+  border-width: 2px !important;
+  border-color: #000 !important;
 }
 
 .mt--2 {
@@ -54,7 +56,7 @@ export default {
 }
 .role {
   font-size: 16px;
-  color: rgba(0, 0, 0, 0.6);
+  color: rgba(255, 255, 255, 0.6);
   font-weight: 400;
 }
 ul,
@@ -66,7 +68,8 @@ li {
   list-style: none;
 }
 .user-nav li {
-  background-color: #efefef;
+  background-color: #2d2d2d;
+  color: #fff !important;
   display: block;
   border-radius: 7px;
   padding: 7px;
@@ -77,7 +80,8 @@ li {
   color: #212121 !important;
 }
 .user-nav li.active {
-  background-color: #dadada;
+  background-color: #5806d2;
+  color: #fff !important;
 }
 .profile-nav {
   height: 100%;

@@ -28,8 +28,9 @@ export default {};
 <style scoped>
 .bg-primary {
   height: 450px;
-  background-color: #242582 !important;
+  background-color: #212121 !important;
   align-items: center !important;
+  justify-content: center;
   display: flex;
 }
 .title {

@@ -41,7 +41,7 @@ export default {
 
 <style scoped>
 .book-card {
-  background: #fff !important;
+  background: #212121 !important;
   box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.2);
   border-radius: 7px;
   transition: 0.5s;
@@ -50,15 +50,16 @@ export default {
   height: 250px;
 }
 .title {
-  color: #f64c72;
+  color: #fff;
 }
 .book-title {
   font-size: 20px;
-  color: #553d67;
+  color: #f64c72;
+  font-weight: bold;
 }
 .book-publishing-house,
 .book-author {
-  color: #99738e;
+  color: rgba(255, 255, 255, 0.4);
   font-weight: 500;
   font-size: 14px;
 }

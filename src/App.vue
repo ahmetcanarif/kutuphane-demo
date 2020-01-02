@@ -2,12 +2,15 @@
   <div id="app">
     <HomeLayout>
       <template slot="header"></template>
-      <main>
-        <slot>
-          <router-view></router-view>
-        </slot>
-      </main>
-      <template slot="footer"></template>
+      <template slot="main">
+        <router-view></router-view>
+      </template>
+      <template slot="footer">
+        <Footer />
+      </template>
+    </HomeLayout>
+  </div>
+</template>
     </HomeLayout>
   </div>
 </template>

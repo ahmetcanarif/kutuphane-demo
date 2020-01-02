@@ -1,14 +1,14 @@
 <template>
-  <div class="row px-4">
-    <div class="col-md-12">
-      <span class="title mb-3 d-inline-block border-bottom">Okuduğun Kitaplar</span>
+  <div class="row px-4 justify-content-between">
+    <div class="col-md-12 bg-purple rounded ml-2 py-1 mb-2">
+      <span class="title mb-3">Okuduğun Kitaplar</span>
     </div>
 
     <div
       v-for="(book,index) in readUserBook"
       :key="index"
-      style="width:200px !important"
-      class="shadow d-flex flex-column m-2 justify-content-around text-center book-card rounded px-0"
+      style="width:200px !important;"
+      class="shadow col-md-3 d-flex flex-column m-2 text-center book-card rounded px-0"
     >
       <div>
         <img
@@ -22,7 +22,7 @@
       <router-link
         :to="`book/${book.id}`"
         tag="button"
-        class="btn detail-btn btn-sm btn-block btn-primary mt-4"
+        class="btn detail-btn btn-sm btn-block text-white font-weight-bold mt-4"
       >View</router-link>
     </div>
   </div>
@@ -49,12 +49,21 @@ export default {
 .book-title {
   font-size: 18px;
   margin-top: 12px;
-  color: #212121;
+  color: #fff;
   font-weight: bold;
 }
+.bg-purple {
+  background-color: #f64c72;
+}
+.detail-btn {
+  background-color: #5806d2;
+}
 .title {
-  font-size: 25px;
+  font-size: 20px;
   font-weight: bold;
-  padding-bottom: 5px;
+  color: #fff;
+}
+.book-card {
+  background: #000 !important;
 }
 </style>

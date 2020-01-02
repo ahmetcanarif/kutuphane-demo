@@ -70,6 +70,7 @@ export default {
             setTimeout(() => {
               this.$emit("closedLoginModal", false);
               this.message = "";
+              this.$router.push("/profile");
             }, 1500);
           }
           console.log(res);

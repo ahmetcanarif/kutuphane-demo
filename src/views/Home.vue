@@ -28,7 +28,4 @@ export default {
 };
 </script>
 <style >
-.home div {
-  height: 100%;
-}
 </style>

@@ -7,11 +7,11 @@
     <div class="row mt-5">
       <div class="col-md-3 my-4">
         <div class="sticky-top">
-          <div class="list-group shadow">
+          <div class="list-group dark shadow">
             <div
               @click="filteredCategory('Tümü')"
               :class="{'active':selectedCategory == 'Tümü'}"
-              class="list-group-item"
+              class="list-group-item bg-dark"
             >Tümü</div>
 
             <div
@@ -19,7 +19,7 @@
               v-for="categories in category"
               :key="categories.id"
               :class="{'active':selectedCategory === categories.tur}"
-              class="list-group-item"
+              class="list-group-item bg-dark"
             >{{ categories.tur }}</div>
           </div>
         </div>
@@ -29,7 +29,7 @@
         <div v-if="isFilterCategory">
           <div class="alert alert-warning" v-if="filteredData.length === 0">lorem</div>
           <div
-            class="row shadow bg-white my-4 py-3"
+            class="row shadow bg-dark my-4 py-3"
             v-for="(book,index) in filteredDisplay"
             :key="index"
           >
@@ -58,7 +58,7 @@
           </div>
         </div>
         <div v-if="!isFilterCategory">
-          <div class="row shadow bg-white my-4 py-3" v-for="(book,index) in display" :key="index">
+          <div class="row shadow bg-dark my-4 py-3" v-for="(book,index) in display" :key="index">
             <div class="col-md-4">
               <img
                 style="height: 100% !important;width: 100%;"
@@ -295,7 +295,7 @@ export default {
 
 <style scoped>
 .book-card {
-  background: #fff !important;
+  background: #212121 !important;
   box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.2);
   border-radius: 7px;
   transition: 0.5s;
@@ -303,19 +303,34 @@ export default {
 .img-fluid {
   height: 250px;
 }
-.active {
-  background: #f3f3f3;
+.list-group-item.active {
+  background: #5806d2 !important;
   color: #232323;
 }
 .list-group-item {
   color: #232323;
 }
+.page-item.active span {
+  background-color: #5806d2 !important;
+}
+.page-item span {
+  color: #fff;
+  border: none;
+  background-color: #212121 !important;
+}
+.book-title,
 .title {
-  color: #f64c72;
+  color: #fff !important;
+}
+.book-body {
+  color: rgba(255, 255, 255, 0.5) !important;
 }
 .book-title {
   font-size: 20px;
-  color: #232323;
+}
+.bg-dark {
+  background-color: #212121 !important;
+  color: #fff !important;
 }
 .book-body {
   color: rgba(0, 0, 0, 0.5);

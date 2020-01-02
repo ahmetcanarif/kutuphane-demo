@@ -1,5 +1,5 @@
 <template>
-  <footer class="bg-primary text-center p-2">
+  <footer class="bg-primary mt-auto text-center p-2">
     <p>Copyright 2019 &copy; Tüm hakları saklıdır.</p>
   </footer>
 </template>

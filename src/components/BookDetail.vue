@@ -1,6 +1,6 @@
 <template>
   <div class="container my-5">
-    <div class="row bg-white shadow px-3 py-4">
+    <div class="row bg-dark shadow px-3 py-4">
       <div class="col-md-3 p-0">
         <img
           class="img-fluid shadow"
@@ -26,11 +26,19 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return { book: null };
+  },
+  async mounted() {}
+};
 </script>
 
 <style scoped>
 .book-title {
   font-weight: 600;
+}
+.bg-dark {
+  background-color: #212121;
 }
 </style>

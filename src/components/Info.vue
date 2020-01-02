@@ -34,9 +34,9 @@ export default {};
 <style scoped>
 @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css");
 .bg-primary {
-  background-color: #242582 !important;
+  background-color: #212121 !important;
 }
-.info-row{
+.info-row {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -51,7 +51,7 @@ i {
   height: 32px;
   display: flex;
   justify-content: center;
-  align-items: center
+  align-items: center;
 }
 .title {
   color: #fff;

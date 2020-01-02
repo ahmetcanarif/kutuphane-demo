@@ -6,7 +6,7 @@
       </slot>
     </Header>
     <main style="height:100%  !important">
-      <slot></slot>
+      <slot name="main"></slot>
     </main>
     <div>
       <slot name="footer">

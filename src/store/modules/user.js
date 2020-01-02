@@ -59,6 +59,24 @@ const actions = {
         });
     });
   },
+  async updateProfil({ commit }, payload) {
+    return await new Promise((resolve, reject) => {
+      const { ad, email, sifre } = payload;
+      axios
+        .post("http://localhost/api/updateProfil.php", {
+          token: localStorage.getItem("user_token"),
+          ad,
+          email,
+          sifre
+        })
+        .then(res => {
+          resolve(res.data);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  },
   async getTokenUser({ commit }, payload) {
     const token = payload;
     await axios

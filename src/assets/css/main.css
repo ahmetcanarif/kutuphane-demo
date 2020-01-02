@@ -5,7 +5,9 @@ html,body,#app,#app>div,#app>div>main,#app>div>main>main{
 .profile-card,.profile-nav{
     height: 100% ;
 }
-
+body{
+    background-color: #000;
+}
 .books {
     height: 100%;
     overflow: hidden;
