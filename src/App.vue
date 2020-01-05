@@ -3,7 +3,9 @@
     <HomeLayout>
       <template slot="header"></template>
       <template slot="main">
-        <router-view></router-view>
+        <transition name="fade" mode="out-in">
+          <router-view></router-view>
+        </transition>
       </template>
       <template slot="footer">
         <Footer />
@@ -58,5 +60,14 @@ label:focus,
 }
 a:hover {
   text-decoration: none;
+}
+.fade-fade-leave-active,
+.fade-enter-active {
+  transition: all 0.8s ease;
+}
+
+.fade-enter, .fade-leave-to
+/* .slide-fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }
 </style>
