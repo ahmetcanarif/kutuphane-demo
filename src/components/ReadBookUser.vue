@@ -1,8 +1,6 @@
 <template>
   <div class="row px-4 justify-content-between">
-    <div class="col-md-12 bg-purple rounded ml-2 py-1 mb-2">
-      <span class="title mb-3">Okuduğun Kitaplar</span>
-    </div>
+    <h1 class="title mb-3 col-md-12">Okuduğun Kitaplar</h1>
 
     <div
       v-for="(book,index) in readUserBook"
@@ -52,14 +50,12 @@ export default {
   color: #fff;
   font-weight: bold;
 }
-.bg-purple {
-  background-color: #f64c72;
-}
+
 .detail-btn {
   background-color: #5806d2;
 }
 .title {
-  font-size: 20px;
+  font-size: 26px;
   font-weight: bold;
   color: #fff;
 }

@@ -32,8 +32,7 @@ export default {
   },
   async mounted() {
     await this.$store.dispatch("Book/getPopularBooks").then(() => {
-      const res = this.$store.getters["Book/getPopularBook"];
-      this.books = res.popularBooks;
+      this.books = this.$store.getters["Book/getPopularBook"];
     });
   }
 };
@@ -53,8 +52,8 @@ export default {
   color: #fff;
 }
 .book-title {
-  font-size: 20px;
-  color: #f64c72;
+  font-size: 24px;
+  color: #fff;
   font-weight: bold;
 }
 .book-publishing-house,

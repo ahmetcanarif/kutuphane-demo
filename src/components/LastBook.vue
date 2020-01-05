@@ -2,7 +2,11 @@
   <div class="container mt-5">
     <h2 class="text-center title">Last Added Books</h2>
     <div class="row justify-content-center">
-      <div v-for="book in books" :key="book.id" class="col-md-3 m-2 text-center book-card py-3">
+      <div
+        v-for="book in books"
+        :key="book.id"
+        class="col-md-3 col-sm-4 m-2 text-center book-card py-3"
+      >
         <div>
           <img
             class="img-fluid mb-2"
@@ -32,8 +36,7 @@ export default {
   },
   async mounted() {
     await this.$store.dispatch("Book/getLastBooks").then(() => {
-      const res = this.$store.getters["Book/getLastBook"];
-      this.books = res.popularBooks;
+      this.books = this.$store.getters["Book/getLastBook"];
     });
   }
 };
@@ -53,8 +56,8 @@ export default {
   color: #fff;
 }
 .book-title {
-  font-size: 20px;
-  color: #f64c72;
+  font-size: 24px;
+  color: #fff;
   font-weight: bold;
 }
 .book-publishing-house,
@@ -63,12 +66,7 @@ export default {
   font-weight: 500;
   font-size: 14px;
 }
-.book-publishing-house,
-.book-author {
-  color: #99738e;
-  font-weight: 500;
-  font-size: 14px;
-}
+
 .detail-btn,
 .detail-btn:focus {
   background: #f64c72 !important;

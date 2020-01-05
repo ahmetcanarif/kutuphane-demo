@@ -116,7 +116,7 @@
           </ul>
         </nav>
       </div>
-      <div class="text-center col-md-12" v-if="isFilterCategory">
+      <div class="text-center col-md-12 mb-5" v-if="isFilterCategory">
         <nav class="d-flex justify-content-center" aria-label="Page navigation example">
           <ul class="pagination">
             <li class="page-item">
@@ -175,19 +175,26 @@ export default {
   },
   async mounted() {
     this.selectedCategory = "Tümü";
-    await this.$store.dispatch("Book/getData").then(() => {
-      const res = this.$store.getters["Book/getBooks"];
-      this.data = res.books;
+    if (this.$store.state.Book.books.length !== 0) {
+      this.data = this.$store.getters["Book/getBooks"];
       this.loading = false;
-      let lastPage = Math.floor(this.data.length / this.range) + 1;
-      for (let i = 1; i <= lastPage; i++) {
-        this.allPages.push(i);
-      }
-    });
-    await this.$store.dispatch("Book/getCategory").then(() => {
-      const res = this.$store.getters["Book/getCategory"];
-      this.category = res.category;
-    });
+    } else {
+      await this.$store.dispatch("Book/getData").then(() => {
+        this.data = this.$store.getters["Book/getBooks"];
+        this.loading = false;
+        let lastPage = Math.floor(this.data.length / this.range) + 1;
+        for (let i = 1; i <= lastPage; i++) {
+          this.allPages.push(i);
+        }
+      });
+    }
+    if (this.$store.state.Book.categories.length !== 0) {
+      this.category = this.$store.getters["Book/getCategory"];
+    } else {
+      await this.$store.dispatch("Book/getCategory").then(() => {
+        this.category = this.$store.getters["Book/getCategory"];
+      });
+    }
   },
   filters: {
     capitalize(val) {
@@ -304,14 +311,14 @@ export default {
   height: 250px;
 }
 .list-group-item.active {
-  background: #5806d2 !important;
+  background: #f64c72 !important;
   color: #232323;
 }
 .list-group-item {
   color: #232323;
 }
 .page-item.active span {
-  background-color: #5806d2 !important;
+  background-color: #f64c72 !important;
 }
 .page-item span {
   color: #fff;

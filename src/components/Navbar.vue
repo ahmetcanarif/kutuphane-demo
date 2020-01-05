@@ -17,13 +17,10 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <router-link class="nav-link" exact active-class="active" to="/" tag="a">Home</router-link>
+            <router-link class="nav-link" exact active-class="active" to="/" tag="a">Anasayfa</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" active-class="active" to="/about" tag="a">About</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link class="nav-link" active-class="active" to="/book" tag="a">Books</router-link>
+            <router-link class="nav-link" active-class="active" to="/book" tag="a">Kitaplar</router-link>
           </li>
           <li v-if="this.$store.getters['User/isAuth']" class="nav-item">
             <router-link class="nav-link" active-class="active" to="/profile" tag="a">Hesabım</router-link>

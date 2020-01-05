@@ -80,7 +80,7 @@ li {
   color: #212121 !important;
 }
 .user-nav li.active {
-  background-color: #5806d2;
+  background-color: #f64c72;
   color: #fff !important;
 }
 .profile-nav {

@@ -1,7 +1,7 @@
 <template>
   <div class="row ml-2">
     <div class="col-md-12 bg-purple rounded ml-2 py-1 mb-2">
-      <span class="title mb-3">Okuduğun Kitaplar</span>
+      <span class="setting-title mb-3">Ayarlar</span>
     </div>
     <div class="col-md-12">
       <div v-if="error.length > 0" class="alert alert-danger">
@@ -24,18 +24,12 @@
               id="staticEmail"
               v-model="updateUser.email"
             />
-            {{ updateUser}} data
-            <br />
-            -- state {{ $store.state.User.user}}
           </div>
         </div>
         <div class="form-group row">
           <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
           <div class="ml-3">
-            <a
-              @click="passwordModal()"
-              class="form-control-plaintext text-white btn btn-sm btn-primary"
-            >Değiştir</a>
+            <a @click="passwordModal()" class="text-white btn btn-sm btn-primary">Değiştir</a>
           </div>
         </div>
         <div class="col-md-6">
@@ -75,19 +69,26 @@ export default {
 <style scoped>
 .btn-purple {
   color: #fff;
-  background: #5806d2;
+  background: #f64c72;
   border: none;
 }
+label {
+  color: #fff;
+}
+.form-control-plaintext {
+  padding-left: 10px;
+}
+.form-control-plaintext,
 .form-control {
-  border-color: #5806d2;
-  color: rgba(0, 0, 0, 0.6);
+  border: none;
+  background: #000;
+  color: rgba(255, 255, 255, 0.6) !important;
 }
 
 .setting-title {
   font-size: 26px;
-  display: inline;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #ccc;
+  color: #fff;
+
   font-weight: bold;
 }
 </style>
