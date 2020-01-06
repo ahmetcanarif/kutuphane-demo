@@ -4,12 +4,12 @@
       <div class="col-md-3 p-0">
         <img
           class="img-fluid shadow"
-          src="http://kbimages1-a.akamaihd.net/Images/1666c157-d3f1-44b2-b68d-939fc040e74a/255/400/False/image.jpg"
+          :src="`http://localhost/kutuphane/admin/kitap_img/${book.resim}`"
           alt
         />
       </div>
       <div class="col-md-9 flex-column d-flex">
-        <h2 class="book-title">{{ book.ad }} s</h2>
+        <h2 class="book-title">{{ book.ad }}</h2>
         <p style="flex:1;" class="text-muted">{{ book.aciklama}}</p>
         <div>
           <div class="badge badge-secondary p-2">Sayfa Sayısı : {{ book.sayfa_sayisi}}</div>
@@ -27,10 +27,18 @@ export default {
     return { book: {} };
   },
   async mounted() {
-    const res = this.$store.state.Book.books.filter(item => {
-      return item.id === this.$route.params.id;
-    });
-    this.book = res[0];
+    if (this.$store.state.Book.books.length > 0) {
+      const res = this.$store.state.Book.books.filter(item => {
+        return item.id === this.$route.params.id;
+      });
+      this.book = res[0];
+    } else {
+      this.$store
+        .dispatch("Book/getOneBook", this.$route.params.id)
+        .then(res => {
+          this.book = res.book;
+        });
+    }
   }
 };
 </script>

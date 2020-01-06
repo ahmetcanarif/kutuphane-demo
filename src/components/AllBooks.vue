@@ -29,13 +29,13 @@
         <div v-if="isFilterCategory">
           <div class="alert alert-warning" v-if="filteredData.length === 0">lorem</div>
           <div
-            class="row shadow bg-dark my-4 py-3"
+            class="row shadow bg-dark my-4 pt-3"
             v-for="(book,index) in filteredDisplay"
             :key="index"
           >
             <div class="col-md-4">
               <img
-                style="height: 100% !important;width: 100%;"
+                style="height: 90% !important;width: 100%;"
                 class="img-fluid"
                 :src="`http://localhost/kutuphane/admin/kitap_img/${book.resim}`"
               />
@@ -44,24 +44,22 @@
               <h3 class="mt-0 book-title font-weight-bold">{{ book.ad }}</h3>
               <div style="border-bottom: 1px dashed #ccc;" class="mb-2"></div>
               <div class="d-flex" style="flex:1;">
-                <p class="mx-0 book-body">{{ book.tur}}</p>
+                <p class="mx-0 book-body">{{ book.aciklama | kisalt }}</p>
               </div>
-              <div class="detay">
-                <div class="row">
-                  <router-link
-                    :to="`/book/${book.id}`"
-                    class="btn btn-sm btn-secondary ml-auto mr-3"
-                  >View -></router-link>
-                </div>
+            </div>
+            <div class="detay bg-light-dark col-md-12 py-2">
+              <div class="d-flex justify-content-between align-items-center">
+                <i @click="saveLikeBook(book.id)" class="far fa-heart" />
+                <router-link :to="`/book/${book.id}`" class="btn btn-sm btn-secondary mr-3">View -></router-link>
               </div>
             </div>
           </div>
         </div>
         <div v-if="!isFilterCategory">
-          <div class="row shadow bg-dark my-4 py-3" v-for="(book,index) in display" :key="index">
+          <div class="row shadow bg-dark my-4 pt-3" v-for="(book,index) in display" :key="index">
             <div class="col-md-4">
               <img
-                style="height: 100% !important;width: 100%;"
+                style="height:90% !important;width: 100%;"
                 class="img-fluid"
                 :src="`http://localhost/kutuphane/admin/kitap_img/${book.resim}`"
               />
@@ -70,15 +68,14 @@
               <h3 class="mt-0 book-title font-weight-bold">{{ book.ad }}</h3>
               <div style="border-bottom: 1px dashed #ccc;" class="mb-2"></div>
               <div class="d-flex" style="flex:1;">
-                <p class="mx-0 book-body">{{ book.tur}}</p>
+                <p class="mx-0 book-body">{{ book.aciklama | kisalt }}</p>
               </div>
-              <div class="detay">
-                <div class="row">
-                  <router-link
-                    :to="`/book/${book.id}`"
-                    class="btn btn-sm btn-secondary ml-auto mr-3"
-                  >View -></router-link>
-                </div>
+            </div>
+            <div class="detay bg-light-dark col-md-12 py-2">
+              <div class="d-flex justify-content-between align-items-center">
+                <i @click="saveLikeBook(book.id)" class="far fa-heart" />
+
+                <router-link :to="`/book/${book.id}`" class="btn btn-sm btn-secondary mr-3">View -></router-link>
               </div>
             </div>
           </div>
@@ -173,6 +170,12 @@ export default {
       isFilterCategory: false
     };
   },
+  filters: {
+    kisalt(val) {
+      console.log("filrer:", val);
+      return val.substr(0, 10);
+    }
+  },
   async mounted() {
     this.selectedCategory = "Tümü";
     if (this.$store.state.Book.books.length !== 0) {
@@ -197,11 +200,15 @@ export default {
     }
   },
   filters: {
-    capitalize(val) {
-      return val.charAt(0).toUpperCase() + val.slice(1);
+    kisalt(value) {
+      if (value.length < 300) value;
+      return value.substr(0, 300) + "...";
     }
   },
   methods: {
+    saveLikeBook(id) {
+      alert(id);
+    },
     filteredCategory(category) {
       this.scrollToTop();
       this.page = 1;
@@ -338,6 +345,9 @@ export default {
 .bg-dark {
   background-color: #212121 !important;
   color: #fff !important;
+}
+.bg-light-dark {
+  background: rgba(55, 55, 55, 0.3);
 }
 .book-body {
   color: rgba(0, 0, 0, 0.5);
