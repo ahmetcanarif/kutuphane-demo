@@ -15,10 +15,15 @@
           tag="li"
           exact
           active-class="active"
-          class="nav-item"
+          class="nav-item pl-3"
           to="/profile"
         >Okuduğun Kitaplar</router-link>
-        <router-link tag="li" active-class="active" class="nav-item" to="/profile/setting">Ayarlar</router-link>
+        <router-link
+          tag="li"
+          active-class="active"
+          class="nav-item pl-3"
+          to="/profile/setting"
+        >Ayarlar</router-link>
       </ul>
     </div>
   </div>
@@ -28,8 +33,7 @@
 export default {
   data() {
     return {
-      user: {},
-      us: { ad: "asdasdasd" }
+      user: {}
     };
   },
   mounted() {
@@ -40,7 +44,7 @@ export default {
 };
 </script>
 
-<style>
+<style >
 .name {
   font-weight: 600;
   margin-top: 10px;
@@ -68,10 +72,9 @@ li {
   list-style: none;
 }
 .user-nav li {
-  background-color: #2d2d2d;
   color: #fff !important;
   display: block;
-  border-radius: 7px;
+  /*border-radius: 7px;*/
   padding: 7px;
   margin: 5px 0px;
   width: 100%;
@@ -80,8 +83,9 @@ li {
   color: #212121 !important;
 }
 .user-nav li.active {
-  background-color: #f64c72;
+  box-shadow: 5px 0px 0px #f64c72 inset;
   color: #fff !important;
+  background-color: #2d2d2d;
 }
 .profile-nav {
   height: 100%;

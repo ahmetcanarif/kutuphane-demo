@@ -27,7 +27,10 @@
       <Loading v-if="loading" />
       <div v-if="!loading" class="col-md-9">
         <div v-if="isFilterCategory">
-          <div class="alert alert-warning" v-if="filteredData.length === 0">lorem</div>
+          <div class="alert alert-dark mt-4" v-if="filteredData.length === 0">
+            <span class="text-bold">{{ selectedCategory}}</span>
+            isimli kategoriye ait herhangi bir kitap bulunamadı.
+          </div>
           <div
             class="row shadow bg-dark my-4 pt-3"
             v-for="(book,index) in filteredDisplay"
@@ -49,7 +52,7 @@
             </div>
             <div class="detay bg-light-dark col-md-12 py-2">
               <div class="d-flex justify-content-between align-items-center">
-                <i @click="saveLikeBook(book.id)" class="far fa-heart" />
+                <i v-if="book.stok > 0" @click="saveLikeBook(book.id)" class="far fa-heart" />
                 <router-link :to="`/book/${book.id}`" class="btn btn-sm btn-secondary mr-3">View -></router-link>
               </div>
             </div>
@@ -73,7 +76,7 @@
             </div>
             <div class="detay bg-light-dark col-md-12 py-2">
               <div class="d-flex justify-content-between align-items-center">
-                <i @click="saveLikeBook(book.id)" class="far fa-heart" />
+                <i v-if="book.stok > 0" @click="saveLikeBook(book.id)" class="far fa-heart" />
 
                 <router-link :to="`/book/${book.id}`" class="btn btn-sm btn-secondary mr-3">View -></router-link>
               </div>
@@ -327,6 +330,12 @@ export default {
 .page-item.active span {
   background-color: #f64c72 !important;
 }
+.alert-dark {
+  border: none !important;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.4);
+  font-size: 17px;
+}
 .page-item span {
   color: #fff;
   border: none;
@@ -369,6 +378,10 @@ export default {
 .list-group,
 .list-group-item {
   border: none !important	;
+}
+.text-bold {
+  font-weight: bold;
+  color: #f64c72;
 }
 .list-group-item:last-child {
   border-radius: 0px !important;

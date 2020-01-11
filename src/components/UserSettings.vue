@@ -11,7 +11,7 @@
         <div class="form-group row">
           <label for="inputPassword" class="col-sm-2 col-form-label">Ad Soyad</label>
           <div class="col-md-4">
-            <input type="text" v-model="updateUser.ad" class="form-control" />
+            <input type="text" v-model="updateUser.ad_soyad" class="form-control" />
           </div>
         </div>
         <div class="form-group row">
@@ -29,14 +29,30 @@
         <div class="form-group row">
           <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
           <div class="ml-3">
-            <a @click="passwordModal()" class="text-white btn btn-sm btn-primary">Değiştir</a>
+            <a
+              @click="activeModal = !activeModal"
+              class="text-white btn btn-sm btn-primary"
+            >Değiştir</a>
           </div>
         </div>
         <div class="col-md-6">
-          <button class="btn btn-purple float-right">Kaydet</button>
+          <button @click="updateProfil()" class="btn btn-purple float-right">Kaydet</button>
         </div>
       </form>
     </div>
+    <transition name="fade" mode="out-in">
+      <div :class="{'d-block':activeModal}" class="modals">
+        <div class="modals-card">
+          <div class="modal-title">
+            <span class="title">Title</span>
+            <span @click="activeModal = !activeModal" class="close-btn">x</span>
+          </div>
+          <div
+            class="modal-body"
+          >Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse nulla tempore, nostrum vel numquam quibusdam.</div>
+        </div>
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -45,28 +61,85 @@ export default {
   data() {
     return {
       error: [],
-      us: { ad: "ahmet" },
-      updateUser: {}
+      updateUser: {},
+      activeModal: false
     };
   },
   methods: {
     updateProfil() {
       this.$store.dispatch("User/updateProfil", this.updateUser).then(res => {
-        console.log(res);
+        //console.log(res);
       });
     },
     passwordModal() {
-      alert();
+      alert("");
     }
   },
   async mounted() {
-    const userData = this.$store.state.User.user;
-    this.updateUser = userData;
+    let userData = this.$store.getters["User/getUser"];
+    this.updateUser = {
+      ...userData
+    };
   }
 };
 </script>
 
 <style scoped>
+body {
+  position: relative;
+}
+.fade-enter-active {
+  transition: all 0.5s ease;
+}
+.fade-leave-active {
+  transition: all 0.5s cubic-bezier(1, 0.5, 0.8, 1);
+}
+.fade-enter, .slide-fade-leave-to
+/* .slide-fade-leave-active below version 2.1.8 */ {
+  transform: translateX(50px);
+  opacity: 0;
+}
+.modals {
+  display: none;
+  z-index: 999;
+  top: 0;
+  left: 0;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+}
+.modals-card {
+  background: white;
+  border-radius: 8px;
+  box-sizing: border-box;
+  height: 300px;
+  position: absolute;
+  width: 400px;
+  left: 50%;
+  top: 50%;
+  z-index: 111 !important;
+  transform: translate(-50%, -50%);
+}
+.modal-title {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 7px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  background: #f1f1f1;
+  align-items: center;
+}
+.modal-title .title {
+  font-size: 22px;
+  color: #000;
+}
+.close-btn {
+  font-size: 22px;
+  margin-right: 6px;
+  font-weight: bold;
+}
 .btn-purple {
   color: #fff;
   background: #f64c72;

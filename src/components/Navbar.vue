@@ -23,7 +23,7 @@
             <router-link class="nav-link" active-class="active" to="/book" tag="a">Kitaplar</router-link>
           </li>
           <li v-if="this.$store.getters['User/isAuth']" class="nav-item">
-            <router-link class="nav-link" active-class="active" to="/profile" tag="a">Hesabım</router-link>
+            <router-link class="nav-link" active-class="active" to="/profile" tag="a">Profil</router-link>
           </li>
 
           <li v-if="!this.$store.getters['User/isAuth']">
@@ -47,21 +47,50 @@ export default {
     SignIn
   },
   data() {
-    return { isActiveModal: false };
+    return { isActiveModal: false, isActiveDropdown: false };
   },
   methods: {
     closeLoginModal(property) {
       this.isActiveModal = property;
     },
+
     logout() {
       this.$store.commit("User/CLEAR_USER");
       this.$store.commit("User/CLEAR_TOKEN");
       this.$router.push("/");
     }
+  },
+  watch: {
+    $route(to, from) {
+      this.isActiveDropdown = false;
+    }
   }
 };
 </script>
 <style scoped>
+.dropdown {
+  background: #151414;
+  height: auto;
+  width: 150px;
+  color: #fff;
+  position: absolute;
+  display: flex;
+  left: -100%;
+  display: none;
+  top: 100%;
+  flex-direction: column !important;
+}
+.dropdown router-link.active {
+  background: #212121;
+}
+.dropdown li {
+  padding: 5px;
+  text-align: center;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+}
+.dropdown li:last-child {
+  border: none !important;
+}
 .active {
   box-shadow: 0px -3px 0px #f64c72 inset;
 }
@@ -90,22 +119,6 @@ export default {
   font-weight: 600;
 }
 .nav-link.active {
-  color: #f64c72;
-}
-.search {
-  background: none;
-  border: 1px solid #f64c72;
-  color: #f64c72;
-  outline: none;
-  width: 150px;
-  display: flex;
-  outline-offset: -2px;
-}
-.search:focus {
-  background: none;
-  border-color: #f64c72;
-  outline: none !important;
-  outline-offset: -2px !important;
   color: #f64c72;
 }
 

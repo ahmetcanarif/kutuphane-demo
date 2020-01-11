@@ -12,9 +12,14 @@
         <h2 class="book-title">{{ book.ad }}</h2>
         <p style="flex:1;" class="text-muted">{{ book.aciklama}}</p>
         <div>
-          <div class="badge badge-secondary p-2">Sayfa Sayısı : {{ book.sayfa_sayisi}}</div>
-          <div class="badge badge-secondary p-2 ml-3">Stok : {{ book.stok }}</div>
-          <div class="badge badge-secondary p-2 ml-3">Fiyat : {{ book.fiyat}} TL</div>
+          <div
+            class="badge font-weight-bold badge-secondary p-2"
+          >Sayfa Sayısı : {{ book.sayfa_sayisi}}</div>
+          <div
+            :class="{'bg-danger':book.stok == 0}"
+            class="badge font-weight-bold badge-secondary p-2 ml-3"
+          >Stok : {{ book.stok }}</div>
+          <div class="badge font-weight-bold badge-secondary p-2 ml-3">Fiyat : {{ book.fiyat}} TL</div>
         </div>
       </div>
     </div>
@@ -47,6 +52,9 @@ export default {
 .book-title {
   font-weight: 600;
   color: #fff;
+}
+.font-weight-bold {
+  font-size: 13px !important;
 }
 .bg-dark {
   background-color: #212121 !important;

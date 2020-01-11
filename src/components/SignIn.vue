@@ -66,7 +66,7 @@ export default {
           } else {
             this.username = "";
             this.password = "";
-            this.message = res.success.message;
+            this.message = res.message.message;
             setTimeout(() => {
               this.$emit("closedLoginModal", false);
               this.message = "";
