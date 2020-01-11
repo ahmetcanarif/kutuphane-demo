@@ -16,8 +16,8 @@ $query = $db->prepare("SELECT * FROM uyeler  INNER JOIN yetki ON uyeler.yetki_id
 		$query->execute([$token]);
 		$user = $query->fetch(PDO::FETCH_ASSOC);
 		if (!$user) {
-			$data["error"]["status"] = false;
-			$data["error"]["message"] = "Böyle bir kullanıcı bulunamadı.";
+			$data["message"]["status"] = "error";
+			$data["message"]["message"] = "Böyle bir kullanıcı bulunamadı.";
 		}else{
 			$data["user"] = $user;
 		}
@@ -27,18 +27,18 @@ $query = $db->prepare("SELECT * FROM uyeler  INNER JOIN yetki ON uyeler.yetki_id
 		$query->execute([$username,md5($password)]);
 		$user = $query->fetch(PDO::FETCH_ASSOC);
 		if (!$user) {
-			$data["error"]["status"] = false;
-			$data["error"]["message"] = "Böyle bir kullanıcı bulunamadı";
+			$data["message"]["status"] = "error";
+			$data["message"]["message"] = "Böyle bir kullanıcı bulunamadı";
 		}else{	
 			$sorgu = $db->prepare("SELECT * FROM uyeler INNER JOIN yetki ON uyeler.yetki_id = yetki.yetki_id  where uyeler.id=?");
 			$sorgu->execute([$user['id']]);
 			$rows = $sorgu->fetch(PDO::FETCH_ASSOC);
 			$data["user"] = $rows;
-			$data["success"]["status"] = true;
-			$data["success"]["message"] = "Giriş işlemi başarıyla tamamlandı. Yönlendiriliyorsunuz";
+			$data["message"]["status"] = "success";
+			$data["message"]["message"] = "Giriş işlemi başarıyla tamamlandı. Yönlendiriliyorsunuz";
 		}
 	}else{
-		$data["error"]["status"] = false;
+		$data["error"]["status"] = "error";
 		$data["error"]["message"] = "Lütfen gerekli alanları doldurunuz.";
 	}	
 }

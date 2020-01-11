@@ -9,21 +9,9 @@ if ($row["token"]) {
 	$user = $db->prepare("SELECT * FROM uyeler WHERE user_token=?");
 	$user->execute([$row['token']]);
 	$users = $user->fetch(PDO::FETCH_ASSOC);
-	if($row["sifre"] != ""){
-		$sifre = $row["sifre"];
-	}else{
-		$sifre = $users["sifre"];
-	}
-	if($row["ad"] != ""){
-		$ad = $row["ad"];
-	}else{
-		$ad = $users["ad_soyad"];
-	}
 	
+	$row['ad'] ? $ad = $row['ad'] : $ad = $users['ad_soyad'];
 
-
-
-	$data["sifre"] = $sifre;
-	$data["ad"] = $ad_soyad;
+	$data["ad"] = $ad;
 }
 echo json_encode($data);
