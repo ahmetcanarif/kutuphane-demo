@@ -10,8 +10,16 @@ if ($row["token"]) {
 	$user->execute([$row['token']]);
 	$users = $user->fetch(PDO::FETCH_ASSOC);
 	
-	$row['ad'] ? $ad = $row['ad'] : $ad = $users['ad_soyad'];
+	isset($row['ad']) ? $ad = $row['ad'] : $ad = $users['ad_soyad'];
 
-	$data["ad"] = $ad;
+	if($row["action"] == "changePass"){
+		if($row["payload"]["lastPass"]){
+			$pass = md5($row["payload"]["lastPass"]);
+			if($users["sifre"] == $pass){
+				$data["lastPass"] = $users["sifre"];
+				
+			}
+		}
+	}
 }
 echo json_encode($data);
