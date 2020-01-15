@@ -1,6 +1,6 @@
 <template>
   <div class="row ml-2">
-    <div class="col-md-12 bg-purple rounded ml-2 py-1 mb-2">
+    <div class="col-md-12 bg-purple rounded py-1 mb-2">
       <span class="setting-title mb-3">Ayarlar</span>
     </div>
     <div class="col-md-12">
@@ -30,7 +30,7 @@
           <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
           <div class="ml-3">
             <a
-              @click="activeModal = !activeModal"
+              @click="isActiveModal = !isActiveModal"
               class="text-white btn btn-sm btn-primary"
             >Değiştir</a>
           </div>
@@ -41,15 +41,39 @@
       </form>
     </div>
     <transition name="fade" mode="out-in">
-      <div :class="{'d-block':activeModal}" class="modals">
+      <div :class="{'d-block':isActiveModal}" class="modals">
         <div class="modals-card">
           <div class="modal-title">
-            <span class="title">Title</span>
-            <span @click="activeModal = !activeModal" class="close-btn">x</span>
+            <span class="title">Şifre Değiştir</span>
+            <span @click="isActiveModal = !isActiveModal" class="close-btn">x</span>
           </div>
-          <div
-            class="modal-body"
-          >Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse nulla tempore, nostrum vel numquam quibusdam.</div>
+          <div class="modal-body">
+            <form action>
+              <div class="form-group">
+                <label class="col-form-label">Eski Şifre</label>
+                <input type="text" v-model="changePass.lastPass" class="form-control" />
+              </div>
+              <div class="form-group">
+                <label class="col-form-label">Yeni Şifre</label>
+                <input type="text" v-model="changePass.newPass" class="form-control" />
+              </div>
+              <div class="form-group">
+                <label class="col-form-label">Yeni Şifre (Tekrar)</label>
+                <input type="text" v-model="changePass.newPassAgain" class="form-control" />
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              @click="isActiveModal = !isActiveModal"
+              class="btn btn-sm btn-outline-danger"
+            >Vazgeç</button>
+            <button
+              :disabled="saveButtonActive"
+              @click="registerPass()"
+              class="btn btn-sm btn-primary"
+            >Değiştir</button>
+          </div>
         </div>
       </div>
     </transition>
@@ -57,29 +81,48 @@
 </template>
 
 <script>
+import { setTimeout } from "timers";
 export default {
   data() {
     return {
+      changePass: { lastPass: "", newPass: "", newPassAgain: "" },
       error: [],
       updateUser: {},
-      activeModal: false
+      isActiveModal: false
     };
   },
   methods: {
     updateProfil() {
-      this.$store.dispatch("User/updateProfil", this.updateUser).then(res => {
-        //console.log(res);
-      });
+      this.$store
+        .dispatch("User/updateProfil", this.updateUser)
+        .then(res => {});
     },
-    passwordModal() {
-      alert("");
+    registerPass() {
+      this.$store.dispatch("User/changePassword", this.changePass).then(res => {
+        console.log(res);
+      });
+    }
+  },
+  computed: {
+    saveButtonActive() {
+      if (
+        this.changePass.lastPass.length > 0 &&
+        this.changePass.newPass.length > 0 &&
+        this.changePass.newPassAgain.length > 0
+      ) {
+        return false;
+      } else {
+        return true;
+      }
     }
   },
   async mounted() {
-    let userData = this.$store.getters["User/getUser"];
-    this.updateUser = {
-      ...userData
-    };
+    setTimeout(() => {
+      let userData = this.$store.getters["User/getUser"];
+      this.updateUser = {
+        ...userData
+      };
+    }, 200);
   }
 };
 </script>
@@ -110,16 +153,24 @@ body {
   background: rgba(0, 0, 0, 0.6);
 }
 .modals-card {
-  background: white;
+  background: #212121;
   border-radius: 8px;
   box-sizing: border-box;
-  height: 300px;
+  color: #fff;
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
   position: absolute;
   width: 400px;
   left: 50%;
   top: 50%;
   z-index: 111 !important;
   transform: translate(-50%, -50%);
+}
+.modal-body {
+  display: flex;
+  flex: 1;
+  height: auto;
 }
 .modal-title {
   width: 100%;
@@ -128,12 +179,18 @@ body {
   padding: 7px;
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
-  background: #f1f1f1;
+  background: #000;
   align-items: center;
 }
+.modal-footer {
+  display: flex;
+  width: 100%;
+  padding: 7px;
+  background: #000;
+}
 .modal-title .title {
-  font-size: 22px;
-  color: #000;
+  font-size: 19px;
+  color: #fff;
 }
 .close-btn {
   font-size: 22px;

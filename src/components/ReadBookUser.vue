@@ -1,28 +1,28 @@
 <template>
   <div class="row px-4 justify-content-between">
     <h1 class="title mb-3 col-md-12">Okuduğun Kitaplar</h1>
-
-    <div
-      v-for="(book,index) in readUserBook"
-      :key="index"
-      style="width:200px !important;"
-      class="shadow col-md-3 d-flex flex-column m-2 text-center book-card rounded px-0"
-    >
-      <div>
-        <img
-          class="img-fluid mb-2"
-          style="height:300px !important; width:100%; border-top-left-radius:7px;border-top-right-radius:7px;"
-          :src="`http://localhost/kutuphane/admin/kitap_img/${book.resim}`"
-          alt
-        />
-      </div>
-      <div class="book-title">{{ book.ad }}</div>
-      <router-link
-        :to="`book/${book.id}`"
-        tag="button"
-        class="btn detail-btn btn-sm btn-block text-white font-weight-bold mt-4"
-      >View</router-link>
-    </div>
+    <table class="table table-dark table-striped table-hover">
+      <thead class="thead-dark">
+        <tr>
+          <th>#</th>
+          <th>Kitap Adı</th>
+          <th>Kitap Türü</th>
+          <th>Aldığın Tarih</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="book in readUserBook" :key="book.id">
+          <td>{{ book.id }}</td>
+          <td>{{ book.ad }}</td>
+          <td>{{ book.tur }}</td>
+          <td>{{ book.verilme_tarihi | moment("DD-mm-YYYY") }}</td>
+          <td>
+            <router-link :to="`profile/readbook/${book.id}`" class="detail-btn">Detay</router-link>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
@@ -50,9 +50,17 @@ export default {
   color: #fff;
   font-weight: bold;
 }
-
+.thead-dark {
+  background: #5806d2;
+}
 .detail-btn {
-  background-color: #5806d2;
+  background: #f64c72;
+  padding: 5px 10px;
+  color: #222;
+  font-weight: 600;
+  outline: none !important;
+  border: none !important;
+  border-radius: 3px;
 }
 .title {
   font-size: 26px;

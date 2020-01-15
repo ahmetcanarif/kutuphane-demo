@@ -175,7 +175,6 @@ export default {
   },
   filters: {
     kisalt(val) {
-      console.log("filrer:", val);
       return val.substr(0, 10);
     }
   },
