@@ -1,8 +1,9 @@
 import axios from "axios";
 import { Promise } from "core-js";
+import { userToken } from "../service/token.js";
 const state = {
   user: {},
-  user_token: localStorage.getItem("user_token") || ""
+  user_token: userToken || ""
 };
 const getters = {
   getUser: state => state.user,
@@ -13,7 +14,7 @@ const mutations = {
     state.user = user;
   },
   SET_AUTH(state) {
-    state.user_token = localStorage.getItem("user_token");
+    state.user_token = userToken;
   },
   CLEAR_USER(state) {
     state.user = [];
@@ -61,16 +62,34 @@ const actions = {
   },
   async updateProfil({ commit }, payload) {
     return await new Promise((resolve, reject) => {
-      const { ad, email, sifre } = payload;
+      console.log(payload);
+      const { ad_soyad, sifre } = payload;
       axios
         .post("http://localhost/api/updateProfil.php", {
-          token: localStorage.getItem("user_token"),
-          ad,
-          email,
+          token: userToken,
+          ad: ad_soyad,
           sifre
         })
         .then(res => {
           resolve(res.data);
+          console.log(res);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  },
+  async changePassword({ commit }, payload) {
+    return await new Promise((resolve, reject) => {
+      axios
+        .post("http://localhost/api/updateProfil.php", {
+          action: "changePass",
+          payload: payload,
+          token: userToken
+        })
+        .then(res => {
+          resolve(res.data);
+          console.log(res);
         })
         .catch(err => {
           reject(err);

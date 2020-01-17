@@ -31,13 +31,15 @@ const mutations = {
   }
 };
 const actions = {
-  async getData({ commit }) {
+  async getData({ commit, getters }) {
     return await new Promise((resolve, reject) => {
       axios
-        .get("http://localhost/api/allBooks.php")
+        .post("http://localhost/api/books.php", {
+          action: "allbooks"
+        })
         .then(res => {
           commit("SET_BOOKS", res.data.books);
-
+          //          console.log(getters.getBooks);
           resolve(res);
         })
         .catch(err => {
@@ -48,10 +50,12 @@ const actions = {
   async getPopularBooks({ commit }) {
     return await new Promise((resolve, reject) => {
       axios
-        .get("http://localhost/api/popularBooks.php")
+        .post("http://localhost/api/books.php", {
+          action: "popularbook"
+        })
         .then(res => {
           commit("SET_POPULAR_BOOKS", res.data.popularBooks);
-          resolve(res);
+          resolve(res.data);
         })
         .catch(err => {
           reject(err);
@@ -61,10 +65,12 @@ const actions = {
   async getLastBooks({ commit }) {
     return await new Promise((resolve, reject) => {
       axios
-        .get("http://localhost/api/lastBooks.php")
+        .post("http://localhost/api/books.php", {
+          action: "lastbook"
+        })
         .then(res => {
           commit("SET_LAST_BOOKS", res.data.lastBooks);
-          resolve(res);
+          resolve(res.data);
         })
         .catch(err => {
           reject(err);

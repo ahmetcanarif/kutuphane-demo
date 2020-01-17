@@ -37,10 +37,11 @@ export default {
 @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css");
 body {
   background: #f7f7f7;
-  font-family: "Quicksand", sans-serif;
+
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
 }
 textarea:hover,
-input:hover,
 textarea:active,
 input:active,
 textarea:focus,
@@ -52,7 +53,6 @@ label:focus,
 .btn:active,
 .btn.active {
   outline: 0px !important;
-  -webkit-appearance: none;
   box-shadow: none !important;
 }
 * {

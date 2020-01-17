@@ -15,7 +15,7 @@
             >Tümü</div>
 
             <div
-              @click="filteredCategory(categories.tur)"
+              @click="filteredCategory(categories.tur,categories.tur_id)"
               v-for="categories in category"
               :key="categories.id"
               :class="{'active':selectedCategory === categories.tur}"
@@ -27,10 +27,11 @@
       <Loading v-if="loading" />
       <div v-if="!loading" class="col-md-9">
         <div v-if="isFilterCategory">
-          <div class="alert alert-dark mt-4" v-if="filteredData.length === 0">
+          <div class="alert alert-dark mt-4" v-if="filteredData.length < 0">
             <span class="text-bold">{{ selectedCategory}}</span>
             isimli kategoriye ait herhangi bir kitap bulunamadı.
           </div>
+
           <div
             class="row shadow bg-dark my-4 pt-3"
             v-for="(book,index) in filteredDisplay"
@@ -163,6 +164,7 @@ export default {
     return {
       data: [],
       category: [],
+      allData: null,
       filteredData: [],
       selectedCategory: "",
       loading: true,
@@ -181,12 +183,14 @@ export default {
   async mounted() {
     this.selectedCategory = "Tümü";
     if (this.$store.state.Book.books.length !== 0) {
-      this.data = this.$store.getters["Book/getBooks"];
+      const data = await this.$store.getters["Book/getBooks"];
+      this.data = [...data];
       this.loading = false;
     } else {
       await this.$store.dispatch("Book/getData").then(() => {
-        this.data = this.$store.getters["Book/getBooks"];
+        const data = this.$store.getters["Book/getBooks"];
         this.loading = false;
+        this.data = [...data];
         let lastPage = Math.floor(this.data.length / this.range) + 1;
         for (let i = 1; i <= lastPage; i++) {
           this.allPages.push(i);
@@ -211,12 +215,14 @@ export default {
     saveLikeBook(id) {
       alert(id);
     },
-    filteredCategory(category) {
+    async filteredCategory(category, category_id) {
       this.scrollToTop();
       this.page = 1;
       this.selectedCategory = category;
       if (category === "Tümü") {
+        const args = await this.$store.getters["Book/getBooks"];
         this.isFilterCategory = false;
+        this.data = [...args];
         let lastPage = Math.floor(this.data.length / this.range) + 1;
         this.allPages = [];
         for (let i = 1; i <= lastPage; i++) {
@@ -225,8 +231,16 @@ export default {
       } else {
         this.isFilterCategory = true;
         this.filterCategory = true;
-        const result = this.data.filter(i => i.tur === category);
-        this.filteredData = result;
+        const args = this.data.filter(item => {
+          return item.tur_id == category_id;
+        });
+        console.log(args);
+        this.filteredData = [...args];
+        let lastPage = Math.ceil(this.filteredData.length / this.range) + 1;
+        this.allPages = [];
+        for (let i = 1; i <= lastPage; i++) {
+          this.allPages.push(i);
+        }
       }
     },
     scrollToTop() {
@@ -277,7 +291,7 @@ export default {
     filteredPagesTotal() {
       let pageSay;
       let lastPage = Math.floor(this.filteredData.length / this.range) + 1;
-      if (this.allPages.length > 3) {
+      if (lastPage > 1) {
         if (this.page >= 3) {
           pageSay = this.allPages.slice(this.page - 3, this.page + 2);
         } else if (this.page === 1) {
@@ -288,22 +302,25 @@ export default {
           pageSay = this.allPages.slice(this.page - 5, this.page + 2);
         }
       } else {
-        pageSay = Math.floor(this.filteredData.length / this.range) + 1;
+        pageSay = lastPage;
       }
       return pageSay;
     },
 
     display() {
       let range = this.range;
-      let offset = this.page * this.range;
+      let offset = (this.page - 1) * this.range;
       //return this.data.slice(this.data, offset);
-      return this.data.slice(this.page - 1, this.page + this.range);
+      return this.data.slice(offset).slice(0, this.range);
     },
     filteredDisplay() {
       let range = this.range;
-      let offset = this.page + this.range;
+      let offset = (this.page - 1) * this.range;
+      let filterdata = "";
       //return this.data.slice(this.data, offset);
-      return this.filteredData.slice(this.page - 1, offset);
+      filterdata = "";
+      filterdata = this.filteredData.slice(offset).slice(0, this.range);
+      return filterdata;
     }
   }
 };

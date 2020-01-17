@@ -1,34 +1,33 @@
 <template>
   <div class="bg-primary p-5 mt-5">
     <div class="row align-items-center justify-content-center">
-      <div class="col-md-3 text-center info-row">
-        <i class="fa fa-home text-white fa-2x rounded-circle p-4"></i>
-        <h4 class="title my-3">Populer Book</h4>
-        <p
-          class="desc"
-        >Lorem ipsum dolor sit amet, consectetur adipisicing elit. A quas aperiam aliquam natus nobis optio.</p>
-      </div>
-      <div class="col-md-3 text-center info-row">
-        <i class="fa fa-bars text-white fa-2x rounded-circle p-4"></i>
-        <h4 class="title my-3">Populer Book</h4>
-        <p
-          class="desc"
-        >Lorem ipsum dolor sit amet, consectetur adipisicing elit. A quas aperiam aliquam natus nobis optio.</p>
-      </div>
-      <div class="col-md-3 text-center info-row">
-        <i class="fa fa-list text-white fa-2x rounded-circle p-4"></i>
-        <h4 class="title my-3">Populer Book</h4>
-
-        <p
-          class="desc"
-        >Lorem ipsum dolor sit amet, consectetur adipisicing elit. A quas aperiam aliquam natus nobis optio.</p>
+      <div class="col-md-3 text-center info-row" v-for="item in info" :key="item.id">
+        <i :class="'fa-'+item.bilgilendirme_icon" class="fa text-white fa-2x rounded-circle p-4"></i>
+        <h4 class="title my-3">{{item.bilgilendirme_baslik}}</h4>
+        <p class="desc">{{ item.bilgilendirme_icerik}}</p>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      info: []
+    };
+  },
+  async mounted() {
+    if (this.$store.getters["Info/getInfo"].length < 1) {
+      await this.$store.dispatch("Info/getData").then(res => {
+        console.log(res);
+        this.info = res.data.info;
+      });
+    } else {
+      this.info = await this.$store.getters["Info/getInfo"];
+    }
+  }
+};
 </script>
 
 <style scoped>

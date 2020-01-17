@@ -35,9 +35,13 @@ export default {
     };
   },
   async mounted() {
-    await this.$store.dispatch("Book/getLastBooks").then(() => {
-      this.books = this.$store.getters["Book/getLastBook"];
-    });
+    if (this.$store.state.Book.lastBooks.length < 0) {
+      await this.$store.dispatch("Book/getLastBooks").then(res => {
+        this.books = [...res.lastBooks];
+      });
+    } else {
+      this.books = [...this.$store.state.Book.lastBooks];
+    }
   }
 };
 </script>

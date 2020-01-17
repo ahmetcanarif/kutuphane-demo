@@ -31,9 +31,13 @@ export default {
     };
   },
   async mounted() {
-    await this.$store.dispatch("Book/getPopularBooks").then(() => {
-      this.books = this.$store.getters["Book/getPopularBook"];
-    });
+    if (this.$store.state.Book.popularBooks.length < 0) {
+      await this.$store.dispatch("Book/getPopularBooks").then(res => {
+        this.books = [...res.popularBooks];
+      });
+    } else {
+      this.books = [...this.$store.state.Book.popularBooks];
+    }
   }
 };
 </script>

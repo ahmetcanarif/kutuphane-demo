@@ -48,7 +48,7 @@
             <span @click="isActiveModal = !isActiveModal" class="close-btn">x</span>
           </div>
           <div class="modal-body">
-            <form action>
+            <form>
               <div class="form-group">
                 <label class="col-form-label">Eski Şifre</label>
                 <input type="text" v-model="changePass.lastPass" class="form-control" />
