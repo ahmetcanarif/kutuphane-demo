@@ -35,7 +35,7 @@ export default {
     };
   },
   async mounted() {
-    if (this.$store.state.Book.lastBooks.length < 0) {
+    if (this.$store.state.Book.lastBooks.length < 1) {
       await this.$store.dispatch("Book/getLastBooks").then(res => {
         this.books = [...res.lastBooks];
       });

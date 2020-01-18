@@ -31,7 +31,7 @@ export default {
     };
   },
   async mounted() {
-    if (this.$store.state.Book.popularBooks.length < 0) {
+    if (this.$store.state.Book.popularBooks.length < 1) {
       await this.$store.dispatch("Book/getPopularBooks").then(res => {
         this.books = [...res.popularBooks];
       });

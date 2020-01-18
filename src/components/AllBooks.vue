@@ -52,8 +52,7 @@
               </div>
             </div>
             <div class="detay bg-light-dark col-md-12 py-2">
-              <div class="d-flex justify-content-between align-items-center">
-                <i v-if="book.stok > 0" @click="saveLikeBook(book.id)" class="far fa-heart" />
+              <div class="d-flex justify-content-end align-items-center">
                 <router-link :to="`/book/${book.id}`" class="btn btn-sm btn-secondary mr-3">View -></router-link>
               </div>
             </div>
@@ -76,9 +75,7 @@
               </div>
             </div>
             <div class="detay bg-light-dark col-md-12 py-2">
-              <div class="d-flex justify-content-between align-items-center">
-                <i v-if="book.stok > 0" @click="saveLikeBook(book.id)" class="far fa-heart" />
-
+              <div class="d-flex justify-content-end align-items-center">
                 <router-link :to="`/book/${book.id}`" class="btn btn-sm btn-secondary mr-3">View -></router-link>
               </div>
             </div>

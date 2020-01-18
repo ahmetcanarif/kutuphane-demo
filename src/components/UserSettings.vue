@@ -196,6 +196,7 @@ body {
   font-size: 22px;
   margin-right: 6px;
   font-weight: bold;
+  cursor: pointer;
 }
 .btn-purple {
   color: #fff;

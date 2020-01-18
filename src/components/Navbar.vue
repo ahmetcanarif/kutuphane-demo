@@ -1,6 +1,5 @@
 <template>
   <nav class="navbar navbar-expand-lg">
-    <SignIn @closedLoginModal="closeLoginModal($event)" :status="isActiveModal" />
     <div class="container">
       <router-link to="/" tag="a" class="navbar-brand" href="#">Navbar</router-link>
       <button
@@ -27,7 +26,7 @@
           </li>
 
           <li v-if="!this.$store.getters['User/isAuth']">
-            <a @click="isActiveModal = !isActiveModal" class="btn login-btn nav-link">Giriş Yap</a>
+            <router-link to="/login" class="btn login-btn nav-link">Giriş Yap</router-link>
           </li>
           <li v-if="this.$store.getters['User/isAuth']">
             <a @click="logout" class="btn btn-outline signup-btn ml-4 nav-link">Çıkış Yap</a>
